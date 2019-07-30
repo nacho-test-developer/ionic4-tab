@@ -3,10 +3,11 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="tabs/tab2"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{planet.name}}</ion-title>
+    <ion-title>{{todo$.id}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-label>{{planet.climate}}</ion-label>
+  <ion-label>{{todo$.title}}</ion-label>
+  <p>is completed: {{todo$.completed}}</p>
 </ion-content>

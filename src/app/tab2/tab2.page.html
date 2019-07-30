@@ -9,10 +9,10 @@
 <ion-content padding>
   <ion-grid>
     <ion-row>
-      <ion-col size="12" *ngFor="let item of (planets | async)?.results">
+      <ion-col size="12" *ngFor="let todo of (todos$ | async)">
         <ion-list>
-          <ion-item (click)="showItem(item)">
-            <ion-label>{{item.name}}</ion-label>
+          <ion-item (click)="showItem(todo.id)">
+            <ion-label>{{todo.title}}</ion-label>
           </ion-item>
         </ion-list>
       </ion-col>

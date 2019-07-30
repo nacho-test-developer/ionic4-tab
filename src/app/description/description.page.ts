@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SwapiService } from '../services/swapi.service';
+
+// Services
+import { Observable } from 'rxjs'
+import { TodosService } from '../services/todos.service';
+
+// Interfaces
+import { Todo } from './../interfaces/todo.interface'
 
 @Component({
   selector: 'app-description',
@@ -9,10 +15,10 @@ import { SwapiService } from '../services/swapi.service';
 })
 export class DescriptionPage implements OnInit {
 
-  public planet:any
+  public todo$: Observable<Todo>
 
   constructor(
-    private _swapi:SwapiService,
+    private _api:TodosService,
     private route:ActivatedRoute
   ) { }
 
@@ -20,10 +26,9 @@ export class DescriptionPage implements OnInit {
     this.route.paramMap.subscribe((params)=>{
       let id = params.get('id')
       
-      // evito error de que no exista info en el template
-      // o puedo utilizar el safe ? en el template y quitar this.plante=
-      this.planet = this._swapi.getSwapi(`planets/${id}`).subscribe(data => {
-        this.planet = data
+      // guardo la data del get en la variable (observable) todo$
+      return this._api.getApiById<Todo>(id).subscribe(data => {
+        this.todo$ = data
       })
     })
   }

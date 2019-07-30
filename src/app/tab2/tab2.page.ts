@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { SwapiService } from '../services/swapi.service';
 import { Router } from '@angular/router';
+
+// Services
+import { Observable } from 'rxjs'
+import { TodosService } from '../services/todos.service';
+
+// Intrefaces
+import { Todo } from "./../interfaces/todo.interface";
 
 @Component({
   selector: 'app-tab2',
@@ -9,39 +15,19 @@ import { Router } from '@angular/router';
 })
 export class Tab2Page implements OnInit {
 
-  public planets:any
+  public todos$: Observable<Todo>
   public id:number
 
   constructor(
-    private _swapi:SwapiService,
+    private _api:TodosService,
     private router: Router
   ) {}
 
     ngOnInit() {
-      this.planets = this._swapi.getSwapi('planets')
-      /*
-      Utilizando el pipe async en el template,
-      no hace falta utilizar la función getApi()
-    */
-      // this.getApi()
+      this.todos$ = this._api.getApi<Todo[]>('todos')
     }
 
-    showItem(item) {
-      let urlEl = item.url.split('/')
-      // obtendo dos posiciones antes del último valor de la url
-      this.id = urlEl[urlEl.length -2]
-      this.router.navigateByUrl(`tabs/description/${this.id}`)
+    showItem(id) {
+      this.router.navigateByUrl(`tabs/description/${id}`)
     }
-
-    /*
-      Utilizando el pipe async en el template,
-      no hace falta subscribirse desde .ts
-    */
-    // getApi() {
-    //   this._swapi.getSwapi('planets').subscribe(data => {
-    //     this.planets = data
-    //     console.log(this.planets)
-    //   })
-    // }
-
 }
